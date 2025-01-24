@@ -1,0 +1,23 @@
+[Unit]
+Description=EVM Transaction Simulator
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/evm-simulator
+Environment=RPC_URL=https://evm-testnet.nexis.network
+Environment=CHAIN_ID=2370
+Environment=PUBLIC_ADDRESS=0x9E41Be13148f82F557fb82F82F7a954f3874A555
+Environment=PRIVATE_KEY=eacb8f877e8440a804d86a5ffd4bf690f0840855d03b9354d022f78ef7663046
+ExecStartPre=/bin/mkdir -p /home/ubuntu/evm-simulator/logs
+ExecStartPre=/bin/chown -R ubuntu:ubuntu /home/ubuntu/evm-simulator/logs
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/ubuntu/evm-simulator/logs/simulator.log
+StandardError=append:/home/ubuntu/evm-simulator/logs/simulator.log
+
+[Install]
+WantedBy=multi-user.target
